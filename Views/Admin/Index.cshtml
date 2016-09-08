@@ -1,0 +1,18 @@
+﻿@model IEnumerable<Uri>
+
+@{
+    ViewBag.Title = "File admin";
+}
+
+<div class="heading">
+    <h1>File admin</h1>
+    <p class="lead">Should totally have security on this.</p>
+    <p>@Html.ActionLink("Upload files here", "Index", "Upload")</p>
+</div>
+
+<ul>
+    @foreach (var uri in Model)
+    {
+        @:<li><a href="@uri.AbsoluteUri">@Path.GetFileName(uri.AbsoluteUri)</a></li>
+    }
+</ul>

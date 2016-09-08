@@ -1,0 +1,16 @@
+﻿@{
+    ViewBag.Title = "File upload";
+}
+
+<div class="jumbotron">
+    <h1>File upload</h1>
+    <p class="lead">Should totally have security on this.</p>
+</div>
+
+<div class="row">
+    @using (Html.BeginForm("Save", "Upload", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <input type="file" name="file" />
+        <input type="submit" value="OK" />
+    }
+</div>

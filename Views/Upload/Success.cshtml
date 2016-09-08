@@ -1,0 +1,10 @@
+﻿@model Uri
+
+@{
+    ViewBag.Title = "File upload succeeded";
+}
+
+<div>
+    Successfully uploaded 
+    <a href="@Model.AbsoluteUri">@Path.GetFileName(Model.AbsoluteUri)</a>
+</div>
