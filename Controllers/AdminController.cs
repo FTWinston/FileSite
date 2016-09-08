@@ -15,5 +15,13 @@ namespace FileSite.Controllers
             var fileService = new FileService();
             return View(fileService.ListFiles());
         }
+
+        [HttpPost]
+        public ActionResult Delete(string file)
+        {
+            var fileService = new FileService();
+            fileService.Delete(file);
+            return RedirectToAction("Index");
+        }
     }
 }

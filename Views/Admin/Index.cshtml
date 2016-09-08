@@ -13,6 +13,27 @@
 <ul>
     @foreach (var uri in Model)
     {
-        @:<li><a href="@uri.AbsoluteUri">@Path.GetFileName(uri.AbsoluteUri)</a></li>
+        string fileName = Path.GetFileName(uri.AbsoluteUri);
+        @:<li><a href="@uri.AbsoluteUri">@fileName</a>
+            <a href="#" onclick="deleteFile('@fileName'); return false" class="delete">delete</a>;
+        @:</li>
     }
 </ul>
+
+@using (Html.BeginForm("Delete", "Admin", FormMethod.Post, new { id = "deleteForm", style = "display:none" }))
+{
+    <input type="hidden" name="file" id="file" />
+}
+
+@section scripts
+{
+<script>
+    function deleteFile(file) {
+        if (!confirm("Really delete " + file + "?"))
+            return;
+
+        document.getElementById('file').value = file;
+        document.getElementById('deleteForm').submit();
+    }
+</script>
+}
