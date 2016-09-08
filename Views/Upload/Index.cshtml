@@ -8,9 +8,8 @@
 </div>
 
 <div class="row">
-    @using (Html.BeginForm("Save", "Upload", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    @using (Html.BeginForm("Save", "Upload", FormMethod.Post, new { id="uploadForm", enctype = "multipart/form-data" }))
     {
-        <input type="file" name="file" />
-        <input type="submit" value="OK" />
+        <input type="file" name="file" onchange="document.getElementById('uploadForm').submit();" />
     }
 </div>
