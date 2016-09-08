@@ -13,10 +13,11 @@ namespace FileSite.Services
     {
         public FileService()
         {
-            Container = GetFileContainer();
+            if (Container == null)
+                Container = GetFileContainer();
         }
 
-        public CloudBlobContainer Container { get; private set; }
+        public static CloudBlobContainer Container { get; private set; }
 
         private static CloudBlobContainer GetFileContainer()
         {
@@ -57,15 +58,20 @@ namespace FileSite.Services
                 yield return ConvertUri(blob.Uri);
             }
         }
-        
+
+        private static Uri CustomUri { get; set; }
+
         private static Uri ConvertUri(Uri uri)
         {
-            var customUrl = CloudConfigurationManager.GetSetting("CustomUrl");
-            if (string.IsNullOrEmpty(customUrl))
-                return uri;
-
-            var customUri = new Uri(customUrl);
-            return new Uri(string.Format("{0}://{1}{2}", customUri.Scheme, customUri.Host, uri.PathAndQuery), UriKind.Absolute);
+            if (CustomUri == null)
+            {
+                var customUrl = CloudConfigurationManager.GetSetting("CustomUrl");
+                if (string.IsNullOrEmpty(customUrl))
+                    return uri;
+                CustomUri = new Uri(customUrl);
+            }
+            
+            return new Uri(string.Format("{0}://{1}{2}", CustomUri.Scheme, CustomUri.Host, uri.PathAndQuery), UriKind.Absolute);
         }
     }
 }
