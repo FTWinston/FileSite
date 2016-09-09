@@ -1,4 +1,5 @@
 ﻿using FileSite.Services;
+using Microsoft.Azure;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -17,8 +18,11 @@ namespace FileSite.Controllers
         }
 
         [HttpPost]
-        public ActionResult Save(HttpPostedFileBase file)
+        public ActionResult Save(HttpPostedFileBase file, string pass)
         {
+            if (pass != CloudConfigurationManager.GetSetting("UploadPassword"))
+                return View("Index", (object)"Password is invalid");
+
             var fileService = new FileService();
             var name = Path.GetFileName(file.FileName);
             var uri = fileService.Upload(name, file.InputStream);

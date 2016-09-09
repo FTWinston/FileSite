@@ -1,15 +1,37 @@
-﻿@{
+﻿@model string
+
+@{
     ViewBag.Title = "File upload";
 }
 
-<div class="jumbotron">
+<div class="heading">
     <h1>File upload</h1>
-    <p class="lead">Should totally have security on this.</p>
 </div>
 
-<div class="row">
-    @using (Html.BeginForm("Save", "Upload", FormMethod.Post, new { id="uploadForm", enctype = "multipart/form-data" }))
-    {
-        <input type="file" name="file" onchange="document.getElementById('uploadForm').submit();" />
+@if (!string.IsNullOrEmpty(Model))
+{
+    <div class="error">Error: @Model</div>
+}
+
+@using (Html.BeginForm("Save", "Upload", FormMethod.Post, new { id="uploadForm", enctype = "multipart/form-data" }))
+{
+    <p>
+        Enter password to allow upload: 
+        <input type="password" name="pass" id="pass" onchange="tryUpload()" />
+    </p>
+
+    <input type="file" name="file" id="file" onchange="tryUpload()" />
+}
+
+@section scripts
+{
+    <script>
+    function tryUpload() {
+        var hasPass = document.getElementById('pass').value != '';
+        var hasFile = document.getElementById('file').value != '';
+
+        if (hasPass && hasFile)
+            document.getElementById('uploadForm').submit();
     }
-</div>
+    </script>
+}

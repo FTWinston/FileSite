@@ -15,3 +15,8 @@ ul li .delete {
     color: red;
     float: right;
 }
+
+.error {
+    color: red;
+    font-size: 1.2em;
+}
